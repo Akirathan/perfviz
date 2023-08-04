@@ -1,24 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import TopBar from "./components/TopBar";
+import {getMockBenchmarks} from "./data";
+import BenchmarkGraph from "./components/BenchmarkGraph";
 
 function App() {
+  const benchCount = 1;
+  const datapointCount = 4;
+  const benchmarks = getMockBenchmarks(benchCount, datapointCount)
+  const benchNames = benchmarks.map(bench => bench.name)
+  const benchSet = new Set(benchNames)
+  console.assert(benchSet.size === benchCount, "Benchmarks must have unique names")
+  let benchComponents = benchmarks.map((benchmark) =>
+    <BenchmarkGraph key={benchmark.name} name={benchmark.name} datapoints={benchmark.datapoints}/>
+  )
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="AppName">
+      <TopBar></TopBar>
+      {benchComponents}
     </div>
   );
 }
